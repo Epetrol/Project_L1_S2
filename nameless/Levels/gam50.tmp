@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://cay6bi86c46uu"]
+
+[ext_resource type="PackedScene" uid="uid://cw6au26kkvaic" path="res://Characters/player.tscn" id="1_ab2jh"]
+[ext_resource type="Script" path="res://Levels/game_level_1.gd" id="1_pabvl"]
+[ext_resource type="PackedScene" uid="uid://bkhk0v6pxrks" path="res://Characters/enemy.tscn" id="3_ndkw3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qtvho"]
+size = Vector2(25.5, 20)
+
+[node name="GameLevel1" type="Node2D"]
+position = Vector2(0, 1)
+script = ExtResource("1_pabvl")
+
+[node name="Player" parent="." instance=ExtResource("1_ab2jh")]
+position = Vector2(1, 1)
+
+[node name="CollisionPlayer" type="CollisionShape2D" parent="Player"]
+position = Vector2(-0.625, -16)
+scale = Vector2(0.5, 1.5)
+shape = SubResource("RectangleShape2D_qtvho")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+drag_horizontal_offset = 0.15
+drag_vertical_offset = -0.15
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="enemy" parent="." instance=ExtResource("3_ndkw3")]
+
+[node name="Polygon2D" type="Polygon2D" parent="enemy"]
+color = Color(1, 0, 0, 1)
+polygon = PackedVector2Array(0, -11, 0, 10, 19, 0)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="enemy/Polygon2D"]
+position = Vector2(-1.1875, -0.0427634)
+scale = Vector2(1.76136, 1.08553)
+polygon = PackedVector2Array(1, -9, 1, 8, 0, 10, 11, 0)
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
